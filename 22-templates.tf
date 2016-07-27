@@ -16,7 +16,7 @@ resource "template_file" "linux_bastion_userdata" {
 }
 
 resource "template_file" "bastion_domain_join_ps1" {
-  template = "${file("./include//domain_join.ps1.tmpl")}"
+  template = "${path.module}/include/domain_join.ps1.tmpl"
 
   lifecycle {
     create_before_destroy = true
@@ -30,7 +30,7 @@ resource "template_file" "bastion_domain_join_ps1" {
 }
 
 resource "template_file" "bastion_r53_register_ps1" {
-  template = "${file("./include//r53_register.ps1.tmpl")}"
+  template = "${path.module}/include/r53_register.ps1.tmpl"
 
   lifecycle {
     create_before_destroy = true
