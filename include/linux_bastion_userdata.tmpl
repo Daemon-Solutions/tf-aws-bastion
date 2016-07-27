@@ -1,0 +1,47 @@
+#!/bin/bash -x
+
+# == Disable IPv6
+echo NETWORKING_IPV6=no >> /etc/sysconfig/network
+sed -i /::1/d /etc/hosts
+
+# == Hostname
+INSTANCEID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id | sed -e 's/-//')
+PRIVIP=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
+PUBIP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
+AZ=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
+
+NEWHOST="${profile}-$INSTANCEID"
+NEWHOSTNAME=$(echo $NEWHOST | sed -e 's/_services/srv/')
+PUBLIC_HOSTNAME="${profile}-$${AZ}.${domain}"
+sed -i '/HOSTNAME/d' /etc/sysconfig/network
+echo HOSTNAME=$NEWHOSTNAME >> /etc/sysconfig/network
+echo 'preserve_hostname: True' > /etc/cloud/cloud.cfg.d/10_hostname.cfg
+hostnamectl set-hostname $NEWHOSTNAME
+sed -i /$PRIVIP/d /etc/hosts
+echo $PRIVIP $NEWHOSTNAME >> /etc/hosts
+service network restart
+
+# == Puppet Facts
+mkdir -p /etc/facter/facts.d
+echo 'envtype=${envtype}' >> /etc/facter/facts.d/aws.txt
+echo 'envname=${envname}' >> /etc/facter/facts.d/aws.txt
+echo 'profile=${profile}' >> /etc/facter/facts.d/aws.txt
+echo 'region=${region}' >> /etc/facter/facts.d/aws.txt
+echo "domain=${domain}" >> /etc/facter/facts.d/aws.txt
+
+# == Puppet Repo
+echo "[missguided_epos_puppet]
+name=MG-EPOS-Puppet
+baseurl=https://${envname}-${envtype}-repo.s3.amazonaws.com/repos/puppet
+metadata_expire=120s
+enabled=1
+gpgcheck=0" > /etc/yum.repos.d/s3.repo
+
+# == Install code and run Puppet
+yum install -y epos-puppet
+puppet-masterless-mco
+
+# == Update Route53
+echo '{"Changes":[{"Action":"UPSERT","ResourceRecordSet":{"Name":"_SETDNSNAME_","Type":"A","TTL":60,"ResourceRecords":[{ "Value": "_SETIPADDRESS_" }]}}]}' > /var/tmp/r53_changes.json
+sed -i "s/_SETDNSNAME_/$${PUBLIC_HOSTNAME}/;s/_SETIPADDRESS_/$${PUBIP}/" /var/tmp/r53_changes.json
+aws route53 change-resource-record-sets --hosted-zone-id ${r53_zone} --change-batch file:///var/tmp/r53_changes.json

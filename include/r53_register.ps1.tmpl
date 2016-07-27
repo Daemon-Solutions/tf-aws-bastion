@@ -1,0 +1,19 @@
+
+$ipAddress = (Invoke-RestMethod -Method Get -Uri http://169.254.169.254/latest/meta-data/public-ipv4)
+$availabilityZone = (Invoke-RestMethod -Method Get -Uri http://169.254.169.254/latest/meta-data/placement/availability-zone)
+
+$publicHostName = "${profile}-$availabilityZone.${domain}"
+$record = new-object Amazon.Route53.Model.ResourceRecord
+$record.Value = $ipAddress
+
+$rs = New-Object Amazon.Route53.Model.ResourceRecordSet
+$rs.Name = $publicHostName
+$rs.Type = "A"
+$rs.TTL = "60"
+$rs.ResourceRecords = $record
+
+$change = new-object Amazon.Route53.Model.Change
+$change.Action = 'UPSERT'
+$change.ResourceRecordSet = $rs
+
+Edit-R53ResourceRecordSet -HostedZoneId ${r53_zone} -ChangeBatch_Change $change

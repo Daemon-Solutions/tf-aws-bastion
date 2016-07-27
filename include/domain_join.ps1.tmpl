@@ -1,0 +1,23 @@
+
+# set-up DNS-servers
+
+$dns_servers = "${dns_servers}".Split(",")
+foreach ($ip in $dns_servers) {
+	netsh interface ip add dnsserver "Ethernet" $ip | Out-File -Append C:\Windows\Temp\launch_config.txt
+}
+
+$instanceId = (Invoke-RestMethod -Method Get -Uri http://169.254.169.254/latest/meta-data/instance-id).Trim()
+$domain = (Get-WmiObject -Class Win32_ComputerSystem).Domain
+
+# rename machine to instanceId
+if ( -Not ([string]::Compare($instanceId, $env:computerName, $True)) ) {
+	(Get-WmiObject -Class Win32_ComputerSystem).Rename($instanceId,'${domain_password}','Administrator@${domain_name}')
+	Restart-Computer
+}
+
+
+# connect to domain on restart
+if ($domain.CompareTo("WORKGROUP")) {
+  (Get-WmiObject -Class Win32_ComputerSystem).JoinDomainOrWorkGroup('${domain_name}','${domain_password}','Administrator@${domain_name}',$null,3) | Out-File C:\Windows\Temp\domain_join.txt
+  Restart-Computer
+}
