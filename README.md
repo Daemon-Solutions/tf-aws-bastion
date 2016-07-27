@@ -38,6 +38,9 @@ module "bastions" {
 * `domain_zone_id` - The zone_id of the route53 zone
 * `dns_servers` - The pair of dns server ipaddresses that the windows bastions use to connect to the domain
 * `ad_cidr_blocks` - The CIDR blocks for the ADS instance that the windows bastions connect to
+* `vpc_id` - The indentifier of the vpc
+* `vpc_cidr` - The CIDR blocks for the vpc in which the bastions will be deployed
+* `vpc_public_subnets` - The public subnets with to build the bastion ASGs
 * `linux_ami` - The ami indentifier to be used to build linux bastions
 * `windows_amu` - The ami indentifier to be used to build windows bastions
 * `allowed_bastion_cidrs` - The cidr ranges allowed to connect to the bastions

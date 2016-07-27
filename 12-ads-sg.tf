@@ -6,13 +6,13 @@
 resource "aws_security_group" "ads_connection_tcp" {
   name = "${var.envname}-${var.envtype}-ads-tcp"
   description = "Security Group ${var.envname}-${var.envtype}-ads"
-  vpc_id = "${module.vpc.vpc_id}"
+  vpc_id = "${var.vpc_id}"
 }
 
 resource "aws_security_group" "ads_connection_udp" {
   name = "${var.envname}-${var.envtype}-ads-udp"
   description = "Security Group ${var.envname}-${var.envtype}-ads"
-  vpc_id = "${module.vpc.vpc_id}"
+  vpc_id = "${var.vpc_id}"
 }
 
 /* DNS */

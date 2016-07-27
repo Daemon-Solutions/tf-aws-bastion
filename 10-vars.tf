@@ -1,20 +1,24 @@
 
-variable "envtype"               {}
-variable "envname"               {}
+variable "envtype"                 {}
+variable "envname"                 {}
 
-variable "domain"                {}
-variable "domain_password"       {}
-variable "domain_zone_id"        {}
-variable "dns_servers"           {}
-variable "ad_cidr_blocks"        {}
+variable "domain"                  {}
+variable "domain_password"         {}
+variable "domain_zone_id"          {}
+variable "dns_servers"             {}
+variable "ad_cidr_blocks"          {}
 
-variable "linux_ami"             { default = "" }
-variable "windows_ami"           { default = "" }
+variable "vpc_id"                  {}
+variable "vpc_cidr"                {}
+variable "vpc_public_subnets"      {}
 
-variable "allowed_bastion_cidrs" {}
+variable "linux_ami"               { default = "" }
+variable "windows_ami"             { default = "" }
 
-variable "linux_bastion_asg_min" { default = 0 }
-variable "linux_bastion_asg_max" { default = 0 }
+variable "allowed_bastion_cidrs"   {}
+
+variable "linux_bastion_asg_min"   { default = 0 }
+variable "linux_bastion_asg_max"   { default = 0 }
 variable "windows_bastion_asg_min" { default = 0 }
 variable "windows_bastion_asg_max" { default = 0 }
 
