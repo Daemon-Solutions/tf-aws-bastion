@@ -1,5 +1,5 @@
 module "iam_profile_bastion" {
-  source        = "../localmodules//tf-aws-iam-instance-profile"
+  source        = "../tf-aws-iam-instance-profile"
   name          = "${var.envname}-${var.envtype}-iam-profile-bastion"
   ec2_describe  = "1"
   ec2_attach    = "1"

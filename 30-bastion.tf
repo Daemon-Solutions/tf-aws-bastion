@@ -1,7 +1,7 @@
 
 /* Linux Bastions */
 module "bastion" {
-  source = "../localmodules//tf-aws-asg"
+  source = "../tf-aws-asg"
 
   name    = "${var.envname}-${var.envtype}-bastion"
   envname = "${var.envname}"
@@ -24,7 +24,7 @@ module "bastion" {
 
 /* Windows Bastions */
 module "bastion-win" {
-  source = "../localmodules//tf-aws-asg"
+  source = "../tf-aws-asg"
 
   name    = "${var.envname}-${var.envtype}-bastion-win"
   envname = "${var.envname}"
