@@ -10,7 +10,7 @@ $instanceId = (Invoke-RestMethod -Method Get -Uri http://169.254.169.254/latest/
 $domain = (Get-WmiObject -Class Win32_ComputerSystem).Domain
 
 # rename machine to instanceId
-if ( -Not ([string]::Compare($instanceId, $env:computerName, $True)) ) {
+if ( ([string]::Compare($instanceId, $env:computerName, $True) -ne 0 ) ) {
 	(Get-WmiObject -Class Win32_ComputerSystem).Rename($instanceId,'${domain_password}','Administrator@${domain_name}')
 	Restart-Computer
 } else {
