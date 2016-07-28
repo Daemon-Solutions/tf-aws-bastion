@@ -31,6 +31,14 @@ resource "aws_security_group" "windows_bastion_sg" {
     cidr_blocks = ["${split(",", var.vpc_cidr)}"]
   }
 
+  // Allow RDP traffic from whitelist
+  ingress {
+    from_port = 3389
+    to_port = 3389
+    protocol = "tcp"
+    cidr_blocks = ["${split(",", var.allowed_bastion_cidrs)}"]
+  }
+
   // Allow WinRM (HTTP) traffic from whitelist
   ingress {
     from_port = 5985
