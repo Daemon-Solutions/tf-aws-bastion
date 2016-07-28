@@ -13,11 +13,15 @@ $domain = (Get-WmiObject -Class Win32_ComputerSystem).Domain
 if ( -Not ([string]::Compare($instanceId, $env:computerName, $True)) ) {
 	(Get-WmiObject -Class Win32_ComputerSystem).Rename($instanceId,'${domain_password}','Administrator@${domain_name}')
 	Restart-Computer
+} else {
+  Write-Output "skipping rename" | Out-File -Append C:\Windows\Temp\domain_join.txt
 }
 
 
 # connect to domain on restart
 if ($domain.CompareTo("WORKGROUP")) {
-  (Get-WmiObject -Class Win32_ComputerSystem).JoinDomainOrWorkGroup('${domain_name}','${domain_password}','Administrator@${domain_name}',$null,3) | Out-File C:\Windows\Temp\domain_join.txt
+  (Get-WmiObject -Class Win32_ComputerSystem).JoinDomainOrWorkGroup('${domain_name}','${domain_password}','Administrator@${domain_name}',$null,3) | Out-File -Append C:\Windows\Temp\domain_join.txt
   Restart-Computer
+} else {
+	Write-Output "skipping domain join" | Out-File -Append C:\Windows\Temp\domain_join.txt
 }
