@@ -19,7 +19,7 @@ if ( ([string]::Compare($instanceId, $env:computerName, $True) -ne 0 ) ) {
 
 
 # connect to domain on restart
-if ($domain.CompareTo("WORKGROUP")) {
+if ( ($domain.CompareTo("WORKGROUP")) -eq 0) {
   (Get-WmiObject -Class Win32_ComputerSystem).JoinDomainOrWorkGroup('${domain_name}','${domain_password}','Administrator@${domain_name}',$null,3) | Out-File -Append C:\Windows\Temp\domain_join.txt
   Restart-Computer
 } else {
