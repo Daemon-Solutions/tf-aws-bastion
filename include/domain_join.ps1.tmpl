@@ -1,27 +1,29 @@
 
-# set-up DNS-servers
-
-$dns_servers = "${dns_servers}".Split(",")
-foreach ($ip in $dns_servers) {
-	netsh interface ip add dnsserver "Ethernet" $ip | Out-File -Append C:\Windows\Temp\launch_config.txt
-}
+Import-Moudle NetAdapter
+$alias = (Get-NetAdapter).Name
+Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddress "${dns_servers}"
 
 $instanceId = (Invoke-RestMethod -Method Get -Uri http://169.254.169.254/latest/meta-data/instance-id).Trim()
 $domain = (Get-WmiObject -Class Win32_ComputerSystem).Domain
 
-# rename machine to instanceId
+$logFile = "C:\Windows\Temp\domain_join.txt"
+
 if ( ([string]::Compare($instanceId, $env:computerName, $True) -ne 0) ) {
-	(Get-WmiObject -Class Win32_ComputerSystem).Rename($instanceId,'${domain_password}','Administrator@${domain_name}')
+	$rename = (Get-WmiObject -Class Win32_ComputerSystem).Rename($instanceId,'${domain_password}','Administrator@${domain_name}').ReturnValue
+
+	if ($rename -ne 0) {
+		Write-Output "failed to rename machine: $rename" | Output-File -Append $logFile
+	}
 	Restart-Computer
 } else {
-  Write-Output "skipping rename" | Out-File -Append C:\Windows\Temp\domain_join.txt
+  Write-Output "skipping rename" | Out-File -Append $logFile
 }
 
+$connect = (Get-WmiObject -Class Win32_ComputerSystem).JoinDomainOrWorkGroup('${domain_name}','${domain_password}','Administrator@${domain_name}',$null,3).ReturnValue
 
-# connect to domain on restart
-if ($domain.CompareTo("WORKGROUP") -ne 0) {
-  (Get-WmiObject -Class Win32_ComputerSystem).JoinDomainOrWorkGroup('${domain_name}','${domain_password}','Administrator@${domain_name}',$null,3) | Out-File -Append C:\Windows\Temp\domain_join.txt
-  # Restart-Computer
+if ($connect -eq 0 ) {
+	Write-Output "connected to domain" | Out-File -Append $logFile
+	# Restart-Computer
 } else {
-	Write-Output "skipping domain join" | Out-File -Append C:\Windows\Temp\domain_join.txt
+	Write-Output "skipping domain join" | Out-File -Append $logFile
 }
