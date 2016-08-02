@@ -38,7 +38,7 @@ enabled=1
 gpgcheck=0" > /etc/yum.repos.d/s3.repo
 
 # == Install code and run Puppet
-yum install -y epos-puppet
+yum install -y ${envname}-puppet
 puppet-masterless-mco
 
 # == Update Route53
