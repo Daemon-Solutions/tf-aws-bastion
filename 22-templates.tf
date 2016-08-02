@@ -1,5 +1,5 @@
 resource "template_file" "linux_bastion_userdata" {
-  template = "${file("${path.module}/linux_bastion_userdata.tmpl")}"
+  template = "${file("${path.module}/include/linux_bastion_userdata.tmpl")}"
 
   vars {
     envname  = "${var.envname}"
