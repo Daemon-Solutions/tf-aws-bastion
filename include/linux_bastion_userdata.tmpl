@@ -30,8 +30,8 @@ echo 'region=${region}' >> /etc/facter/facts.d/aws.txt
 echo "domain=${domain}" >> /etc/facter/facts.d/aws.txt
 
 # == Puppet Repo
-echo "[missguided_epos_puppet]
-name=MG-EPOS-Puppet
+echo "[${customer}_${envname}_puppet]
+name=${customer}-${envname}-Puppet
 baseurl=https://${envname}-${envtype}-repo.s3.amazonaws.com/repos/puppet
 metadata_expire=120s
 enabled=1

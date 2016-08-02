@@ -1,7 +1,7 @@
 
 variable "envtype"                 {}
 variable "envname"                 {}
-
+variable "customer"                {}
 variable "domain"                  {}
 variable "domain_password"         {}
 variable "domain_zone_id"          {}

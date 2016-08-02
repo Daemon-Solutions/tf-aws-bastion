@@ -6,6 +6,7 @@ resource "template_file" "linux_bastion_userdata" {
     envtype  = "${var.envtype}"
     region   = "${var.aws_region}"
     domain   = "${var.domain}"
+    customer = "${var.customer}"
     profile  = "bastion"
     r53_zone = "${var.domain_zone_id}"
   }
