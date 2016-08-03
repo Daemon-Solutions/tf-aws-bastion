@@ -1,29 +1,71 @@
 
-Import-Moudle NetAdapter
-$alias = (Get-NetAdapter).Name
-Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddress "${dns_servers}"
+function Log {
+	param (
+	  [string]$message
+	)
 
-$instanceId = (Invoke-RestMethod -Method Get -Uri http://169.254.169.254/latest/meta-data/instance-id).Trim()
-$domain = (Get-WmiObject -Class Win32_ComputerSystem).Domain
+	Write-Output $message | Out-File -Append -FilePath C:\Windows\Temp\domain_join.txt
+}
 
-$logFile = "C:\Windows\Temp\domain_join.txt"
+function SetDNS() {
+  Log("setting dns servers")
+	Import-Moudle NetAdapter
+	$alias = (Get-NetAdapter).Name
+	Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddress "${dns_servers}"
+}
 
-if ( ([string]::Compare($instanceId, $env:computerName, $True) -ne 0) ) {
-	$rename = (Get-WmiObject -Class Win32_ComputerSystem).Rename($instanceId,'${domain_password}','Administrator@${domain_name}').ReturnValue
+function NameInstance() {
+	$instanceId = (Invoke-RestMethod -Method Get -Uri http://169.254.169.254/latest/meta-data/instance-id).Trim()
+	$domain = (Get-WmiObject -Class Win32_ComputerSystem).Domain
 
-	if ($rename -ne 0) {
-		Write-Output "failed to rename machine: $rename" | Output-File -Append $logFile
+	$newName = $instanceId.substring(0,15) # limit to 15 characters
+
+	Log("rename to $newName")
+
+	if ( ([string]::Compare($newName, $env:computerName, $True) -ne 0) ) {
+		Log("renaming machine")
+		$rename = (Get-WmiObject -Class Win32_ComputerSystem).Rename($newName,'changeMe1','Administrator').ReturnValue
+
+		if ($rename -eq 0) {
+			Log("rename successful")
+			Restart-Computer
+			Start-Sleep -s 30
+		} else {
+			Log("rename skipped or failed - $rename")
+		}
+	} else {
+	  Log("skipping rename")
 	}
-	Restart-Computer
-} else {
-  Write-Output "skipping rename" | Out-File -Append $logFile
+
 }
 
-$connect = (Get-WmiObject -Class Win32_ComputerSystem).JoinDomainOrWorkGroup('${domain_name}','${domain_password}','Administrator@${domain_name}',$null,3).ReturnValue
+function ConnectToDomain() {
+	$domain = (Get-WmiObject -Class Win32_ComputerSystem).Domain
 
-if ($connect -eq 0 ) {
-	Write-Output "connected to domain" | Out-File -Append $logFile
-	# Restart-Computer
-} else {
-	Write-Output "skipping domain join" | Out-File -Append $logFile
+	$newDomain = "${domain_name}"
+	$newDomainPassword = '${domain_password}' # single quotes because password can contain dollar sign
+
+	Log("connect to domain $newDomain")
+	Log("using credentials - Administrator@$newDomain : $newDomainPassword")
+
+	if ( ([string]::Compare($newDomain, $domain, $True) -ne 0) ) {
+		Log("connecting to domain")
+	  $connect = (Get-WmiObject -Class Win32_ComputerSystem).JoinDomainOrWorkGroup($newDomain,$newDomainPassword,"Administrator@$newDomain",$null,3).ReturnValue
+
+	  if ($connect -eq 0 ) {
+		  Log("connected to domain")
+			Restart-Computer
+			Start-Sleep -s 30
+	  } else {
+		  Log("domain join skipped or failed - $connect")
+	  }
+	} else {
+		Log("skippiing domain connection")
+	}
 }
+
+
+
+SetDNS
+NameInstance
+ConnectToDomain
