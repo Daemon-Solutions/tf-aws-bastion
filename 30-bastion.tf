@@ -15,7 +15,7 @@ module "bastion" {
   instance_type               = "t2.micro"
   iam_instance_profile        = "${module.iam_profile_bastion.profile_id}"
   security_groups             = "${aws_security_group.linux_bastion_sg.id},${aws_security_group.bastion_egress.id}"
-  user_data                   = "${template_file.linux_bastion_userdata.rendered}"
+  user_data                   = "${var.linux_userdata}${template_file.linux_bastion_userdata.rendered}"
   associate_public_ip_address = true
 
   asg_min = "${var.linux_bastion_asg_min}"
@@ -38,7 +38,7 @@ module "bastion-win" {
   instance_type               = "t2.micro"
   iam_instance_profile        = "${module.iam_profile_bastion.profile_id}"
   security_groups             = "${aws_security_group.windows_bastion_sg.id},${aws_security_group.bastion_egress.id},${aws_security_group.ads_connection_tcp.id},${aws_security_group.ads_connection_udp.id}"
-  user_data                   = "<powershell>${template_file.bastion_domain_join_ps1.rendered}${template_file.bastion_r53_register_ps1.rendered}</powershell><persist>true</persist>"
+  user_data                   = "<powershell>${var.windows_userdata}${template_file.bastion_domain_join_ps1.rendered}${template_file.bastion_r53_register_ps1.rendered}</powershell><persist>true</persist>"
   associate_public_ip_address = true
 
   asg_min = "${var.windows_bastion_asg_min}"

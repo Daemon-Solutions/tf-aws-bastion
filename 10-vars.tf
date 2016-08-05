@@ -22,6 +22,9 @@ variable "linux_bastion_asg_max"   { default = 0 }
 variable "windows_bastion_asg_min" { default = 0 }
 variable "windows_bastion_asg_max" { default = 0 }
 
+variable "windows_userdata" { default = "" }
+variable "linux_userdata" { default = "" }
+
 variable "aws_region" {
   default = "eu-west-1"
 }

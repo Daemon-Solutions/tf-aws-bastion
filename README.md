@@ -48,6 +48,8 @@ module "bastions" {
 * `linux_bastion_asg_max` - The maximum number of linux bastions to create
 * `windows_bastion_asg_min` - The minimum number of windows bastions to create
 * `windows_bastion_asg_max` - The maximum number of windows bastions to create
+* `windows_userdata` - Pass custom userdata to the windows bastion
+* `linux_userdata` - Pass custom userdata to the linux bastion
 
 
 ## Dependencies
