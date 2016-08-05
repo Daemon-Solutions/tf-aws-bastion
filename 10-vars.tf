@@ -27,7 +27,5 @@ variable "aws_region" {
 }
 
 variable "aws_zones" {
-  default = {
-    eu-west-1 = "eu-west-1a,eu-west-1b,eu-west-1c"
-  }
+  default = "eu-west-1a,eu-west-1b,eu-west-1c"
 }
