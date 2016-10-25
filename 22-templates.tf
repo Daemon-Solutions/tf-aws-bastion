@@ -2,6 +2,7 @@ data "template_file" "linux_bastion_userdata" {
   template = "${path.module}/include/linux_bastion_userdata.tmpl"
 
   vars {
+    customer = "${var.customer}"
     envname  = "${var.envname}"
     envtype  = "${var.envtype}"
     region   = "${var.aws_region}"
