@@ -7,7 +7,7 @@ module "bastion" {
   envname = "${var.envname}"
   service = "bastion"
 
-  availability_zones = "${var.aws_zones}"
+  availability_zones = "${lookup(var.aws_zones, var.aws_region)}"
   subnets            = "${var.vpc_public_subnets}"
 
   key_name                    = "bashton"
@@ -30,7 +30,7 @@ module "bastion-win" {
   envname = "${var.envname}"
   service = "bastion-win"
 
-  availability_zones = "${var.aws_zones}"
+  availability_zones = "${lookup(var.aws_zones, var.aws_region)}"
   subnets            = "${var.vpc_public_subnets}"
 
   key_name                    = "bashton"
