@@ -1,5 +1,5 @@
 data "template_file" "linux_bastion_userdata" {
-  template = "${file("path./include//linux_bastion_userdata.tmpl")}"
+  template = "${path.module}/include/linux_bastion_userdata.tmpl"
 
   vars {
     envname  = "${var.envname}"
