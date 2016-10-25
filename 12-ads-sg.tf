@@ -7,12 +7,20 @@ resource "aws_security_group" "ads_connection_tcp" {
   name = "${var.envname}-${var.envtype}-ads-tcp"
   description = "Security Group ${var.envname}-${var.envtype}-ads"
   vpc_id = "${var.vpc_id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group" "ads_connection_udp" {
   name = "${var.envname}-${var.envtype}-ads-udp"
   description = "Security Group ${var.envname}-${var.envtype}-ads"
   vpc_id = "${var.vpc_id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 /* DNS */
@@ -23,6 +31,10 @@ resource "aws_security_group_rule" "ads_tcp_53" {
   protocol          = "tcp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_tcp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group_rule" "ads_udp_53" {
@@ -32,6 +44,10 @@ resource "aws_security_group_rule" "ads_udp_53" {
   protocol          = "udp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_udp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 /* Kerberos authentication */
@@ -42,6 +58,10 @@ resource "aws_security_group_rule" "ads_tcp_88" {
   protocol          = "tcp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_tcp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group_rule" "ads_udp_88" {
@@ -51,6 +71,10 @@ resource "aws_security_group_rule" "ads_udp_88" {
   protocol          = "udp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_udp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 /* NTP */
@@ -61,6 +85,10 @@ resource "aws_security_group_rule" "ads_udp_123" {
   protocol          = "udp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_udp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 /* RPC */
@@ -71,6 +99,10 @@ resource "aws_security_group_rule" "ads_tcp_135" {
   protocol          = "tcp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_tcp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 /* NetLogon */
@@ -81,6 +113,10 @@ resource "aws_security_group_rule" "ads_tcp_139" {
   protocol          = "tcp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_tcp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group_rule" "ads_udp_137" {
@@ -90,6 +126,10 @@ resource "aws_security_group_rule" "ads_udp_137" {
   protocol          = "udp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_udp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 /* LDAP */
@@ -100,6 +140,10 @@ resource "aws_security_group_rule" "ads_tcp_389" {
   protocol          = "tcp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_tcp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 /* SMB */
@@ -110,6 +154,10 @@ resource "aws_security_group_rule" "ads_tcp_445" {
   protocol          = "tcp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_tcp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group_rule" "ads_udp_445" {
@@ -119,6 +167,10 @@ resource "aws_security_group_rule" "ads_udp_445" {
   protocol          = "udp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_udp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 /* FRS */
@@ -129,6 +181,10 @@ resource "aws_security_group_rule" "ads_tcp_873" {
   protocol          = "tcp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_tcp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 /* Global Catalog */
@@ -139,6 +195,10 @@ resource "aws_security_group_rule" "ads_tcp_3268" {
   protocol          = "tcp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_tcp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 /* Ephemeral ports for RPC */
@@ -149,6 +209,10 @@ resource "aws_security_group_rule" "ads_tcp_ephemeral_ports" {
   protocol          = "tcp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_tcp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group_rule" "ads_udp_ephemeral_ports" {
@@ -158,4 +222,8 @@ resource "aws_security_group_rule" "ads_udp_ephemeral_ports" {
   protocol          = "udp"
   cidr_blocks       = ["${split(",",var.ad_cidr_blocks)}"]
   security_group_id = "${aws_security_group.ads_connection_udp.id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
