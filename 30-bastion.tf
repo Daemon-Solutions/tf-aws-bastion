@@ -6,7 +6,7 @@ module "bastion" {
   envname = "${var.envname}"
   service = "bastion"
 
-  availability_zones = ["${lookup(var.aws_zones, var.aws_region)}"]
+  availability_zones = ["${split(",",lookup(var.aws_zones, var.aws_region))}"]
   subnets            = ["${var.public_subnets}"]
 
   key_name                    = "bashton"
