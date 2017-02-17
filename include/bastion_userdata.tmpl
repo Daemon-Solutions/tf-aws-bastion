@@ -40,8 +40,3 @@ gpgcheck=0" > /etc/yum.repos.d/s3.repo
 # == Install code and run Puppet
 yum install -y ${envname}-puppet
 puppet-masterless-mco
-
-# == Update Route53
-echo '{"Changes":[{"Action":"UPSERT","ResourceRecordSet":{"Name":"_SETDNSNAME_","Type":"A","TTL":60,"ResourceRecords":[{ "Value": "_SETIPADDRESS_" }]}}]}' > /var/tmp/r53_changes.json
-sed -i "s/_SETDNSNAME_/$${PUBLIC_HOSTNAME}/;s/_SETIPADDRESS_/$${PUBIP}/" /var/tmp/r53_changes.json
-aws route53 change-resource-record-sets --hosted-zone-id ${r53_zone} --change-batch file:///var/tmp/r53_changes.json
