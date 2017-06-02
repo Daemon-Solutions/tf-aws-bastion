@@ -7,7 +7,7 @@ module "bastion" {
 
   subnets = ["${var.public_subnets}"]
 
-  key_name                    = "${var.keypair}"
+  key_name                    = "${var.key_name}"
   ami_id                      = "${var.bastion_ami}"
   instance_type               = "t2.micro"
   iam_instance_profile        = "${module.iam_profile_bastion.profile_id}"
