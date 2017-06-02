@@ -36,6 +36,7 @@ module "bastions" {
 * `bastion_asg_min` - The minimum number of linux bastions to create
 * `bastion_asg_max` - The maximum number of linux bastions to create
 * `bastion_userdata` - Pass custom userdata to the windows bastion
+* `key_name` - Pass the EC2 keypair name (defaults to bashton)
 
 
 ## Dependencies

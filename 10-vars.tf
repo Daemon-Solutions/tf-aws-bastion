@@ -35,3 +35,7 @@ variable "aws_zones" {
     eu-west-1 = "eu-west-1a,eu-west-1b,eu-west-1c"
   }
 }
+
+variable "key_name" {
+  default = "bashton"
+}
