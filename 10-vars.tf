@@ -36,6 +36,6 @@ variable "aws_zones" {
   }
 }
 
-variable "keypair" {
+variable "key_name" {
   default = "bashton"
 }
