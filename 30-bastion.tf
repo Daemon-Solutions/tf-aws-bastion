@@ -9,7 +9,7 @@ module "bastion" {
 
   key_name                    = "${var.key_name}"
   ami_id                      = "${var.bastion_ami}"
-  instance_type               = "t2.micro"
+  instance_type               = "${var.instance_type}"
   iam_instance_profile        = "${module.iam_profile_bastion.profile_id}"
   security_groups             = ["${aws_security_group.bastion_sg.id}", "${aws_security_group.bastion_egress.id}"]
   user_data                   = "${var.bastion_userdata}${data.template_file.bastion_userdata.rendered}"

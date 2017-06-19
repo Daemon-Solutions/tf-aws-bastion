@@ -31,6 +31,7 @@ module "bastions" {
 * `domain` - The domain name with which the bastions will reqister
 * `dns_servers` - The pair of dns server ipaddresses that the windows bastions use to connect to the domain
 * `public_subnets` - The public subnets with to build the bastion ASGs
+* `instance_type` - The instance type to use for the bastions (defaults to t2.micro)
 * `bastion_ami` - The ami indentifier to be used to build linux bastions
 * `allowed_bastion_cidrs` - The cidr ranges allowed to connect to the bastions
 * `bastion_asg_min` - The minimum number of linux bastions to create
