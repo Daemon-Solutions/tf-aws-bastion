@@ -15,6 +15,10 @@ variable "public_subnets" {
   type = "list"
 }
 
+variable "instance_type" {
+  default = "t2.micro"
+}
+
 variable "bastion_ami" {
   default = ""
 }
