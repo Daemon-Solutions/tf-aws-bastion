@@ -6,11 +6,6 @@ variable "domain" {
   default = "eu-west-1.compute.internal"
 }
 
-variable "dns_servers" {
-  type    = "list"
-  default = ["127.0.0.1", "AmazonProvidedDNS"]
-}
-
 variable "public_subnets" {
   type = "list"
 }
@@ -41,12 +36,6 @@ variable "bastion_userdata" {
 
 variable "aws_region" {
   default = "eu-west-1"
-}
-
-variable "aws_zones" {
-  default = {
-    eu-west-1 = "eu-west-1a,eu-west-1b,eu-west-1c"
-  }
 }
 
 variable "key_name" {
