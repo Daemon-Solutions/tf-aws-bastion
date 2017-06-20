@@ -10,6 +10,10 @@ variable "public_subnets" {
   type = "list"
 }
 
+variable "iam_instance_profile_id" {
+  type = "string"
+}
+
 variable "instance_type" {
   default = "t2.micro"
 }
@@ -23,15 +27,21 @@ variable "allowed_bastion_cidrs" {
 }
 
 variable "bastion_asg_min" {
-  default = 0
+  default = 1
 }
 
 variable "bastion_asg_max" {
-  default = 0
+  default = 1
 }
 
 variable "bastion_userdata" {
-  default = ""
+  description = "Custom userdata for the bastion server."
+  default     = ""
+}
+
+variable "bastion_userdata_template" {
+  description = "Userdata template for the bastion server. Allowed: custom, puppet_masterless_mco"
+  default     = "custom"
 }
 
 variable "aws_region" {
