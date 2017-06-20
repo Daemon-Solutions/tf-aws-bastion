@@ -27,11 +27,11 @@ variable "allowed_bastion_cidrs" {
 }
 
 variable "bastion_asg_min" {
-  default = 0
+  default = 1
 }
 
 variable "bastion_asg_max" {
-  default = 0
+  default = 1
 }
 
 variable "bastion_userdata" {

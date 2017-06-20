@@ -20,8 +20,8 @@ module "bastions" {
 
   allowed_bastion_cidrs   = ["88.97.72.136/32", "54.76.122.23/32", "195.102.251.16/28", "195.8.68.130/32"]
 
-  bastion_asg_min   = "1"
-  bastion_asg_max   = "1"
+  bastion_asg_min         = 2
+  bastion_asg_max         = 2
 }
 ```
 
@@ -35,9 +35,9 @@ module "bastions" {
 * `instance_type` - The instance type to use for the bastions (defaults to t2.micro)
 * `bastion_ami` - The ami indentifier to be used to build linux bastions
 * `allowed_bastion_cidrs` - The cidr ranges allowed to connect to the bastions
-* `bastion_asg_min` - The minimum number of linux bastions to create
-* `bastion_asg_max` - The maximum number of linux bastions to create
 * `bastion_userdata` - Pass custom userdata to the windows bastion
+* `bastion_asg_min` - The minimum number of linux bastions to create (defaults to 1)
+* `bastion_asg_max` - The maximum number of linux bastions to create (defaults to 1)
 * `key_name` - Pass the EC2 keypair name (defaults to bashton)
 
 
