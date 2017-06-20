@@ -12,7 +12,7 @@ module "bastion" {
   instance_type               = "${var.instance_type}"
   iam_instance_profile        = "${var.iam_instance_profile_id}"
   security_groups             = ["${aws_security_group.bastion_sg.id}", "${aws_security_group.bastion_egress.id}"]
-  user_data                   = "${var.bastion_userdata}${data.template_file.bastion_userdata.rendered}"
+  user_data                   = "${data.template_file.bastion_userdata.rendered}"
   associate_public_ip_address = true
 
   min = "${var.bastion_asg_min}"

@@ -35,9 +35,10 @@ module "bastions" {
 * `instance_type` - The instance type to use for the bastions (defaults to t2.micro)
 * `bastion_ami` - The ami indentifier to be used to build linux bastions
 * `allowed_bastion_cidrs` - The cidr ranges allowed to connect to the bastions
-* `bastion_userdata` - Pass custom userdata to the windows bastion
 * `bastion_asg_min` - The minimum number of linux bastions to create (defaults to 1)
 * `bastion_asg_max` - The maximum number of linux bastions to create (defaults to 1)
+* `bastion_userdata` - Pass custom userdata to the bastions
+* `bastion_userdata_template` - Use a predefined userdata script on the bastions
 * `key_name` - Pass the EC2 keypair name (defaults to bashton)
 
 

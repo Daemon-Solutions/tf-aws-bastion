@@ -35,7 +35,13 @@ variable "bastion_asg_max" {
 }
 
 variable "bastion_userdata" {
-  default = ""
+  description = "Custom userdata for the bastion server."
+  default     = ""
+}
+
+variable "bastion_userdata_template" {
+  description = "Userdata template for the bastion server. Allowed: custom, puppet_masterless_mco"
+  default     = "custom"
 }
 
 variable "aws_region" {
