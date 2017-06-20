@@ -10,6 +10,10 @@ variable "public_subnets" {
   type = "list"
 }
 
+variable "iam_instance_profile_id" {
+  type = "string"
+}
+
 variable "instance_type" {
   default = "t2.micro"
 }
