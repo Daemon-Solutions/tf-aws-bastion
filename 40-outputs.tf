@@ -3,5 +3,5 @@ output "bastion_sg" {
 }
 
 output "asg_name" {
-  value = "${var.envname}-${var.envtype}-bastion"
+  value = "${null_resource.bastion_asg.triggers.name}"
 }
