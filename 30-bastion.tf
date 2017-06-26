@@ -18,3 +18,15 @@ module "bastion" {
   min = "${var.bastion_asg_min}"
   max = "${var.bastion_asg_max}"
 }
+
+# Use a null resource to create an explicit dependency between the `asg_name`
+# output and the ASG resource that is created within `module.bastion`. Other
+# resources using the `asg_name` output (which uses this null resource) will
+# then be executed AFTER the ASG is created.
+resource "null_resource" bastion_asg {
+  depends_on = ["module.bastion"]
+
+  triggers = {
+    name = "${var.envname}-${var.envtype}-bastion"
+  }
+}
