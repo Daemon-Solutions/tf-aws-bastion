@@ -51,3 +51,8 @@ variable "aws_region" {
 variable "key_name" {
   default = "bashton"
 }
+
+variable "extra_tags" {
+  description = "Extra tags for the ASG"
+  default     = []
+}

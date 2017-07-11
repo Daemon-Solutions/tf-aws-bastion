@@ -5,6 +5,8 @@ module "bastion" {
   envname = "${var.envname}"
   service = "bastion"
 
+  extra_tags = ["${var.extra_tags}"]
+
   subnets = ["${var.public_subnets}"]
 
   key_name                    = "${var.key_name}"
