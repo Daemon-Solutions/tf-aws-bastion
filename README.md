@@ -40,7 +40,7 @@ module "bastions" {
 * `bastion_userdata` - Pass custom userdata to the bastions
 * `bastion_userdata_template` - Use a predefined userdata script on the bastions
 * `key_name` - Pass the EC2 keypair name (defaults to bashton)
-
+* `extra_tags` - Extra tags for the ASG
 
 ## Dependencies
 
