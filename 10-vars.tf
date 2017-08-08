@@ -2,6 +2,10 @@ variable "envtype" {}
 variable "envname" {}
 variable "customer" {}
 
+variable "name" {
+  default = ""
+}
+
 variable "domain" {
   default = "eu-west-1.compute.internal"
 }

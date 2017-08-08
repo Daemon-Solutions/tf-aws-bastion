@@ -29,6 +29,7 @@ module "bastions" {
 
 * `envname` - The name of the environemt or vpc that the bastions are being deployed into
 * `envtype` - The type of environemt e.g. nonprod, prod
+* `name` - The name of the ASG and its instances (defaults to `${envname}-${envtype}-bastion`)
 * `domain` - The domain name with which the bastions will reqister
 * `public_subnets` - The public subnets with to build the bastion ASGs
 * `iam_instance_profile_id` - The IAM instance profile ID to use for the bastions
