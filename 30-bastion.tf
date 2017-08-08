@@ -1,7 +1,7 @@
 module "bastion" {
   source = "../tf-aws-asg"
 
-  name    = "${var.envname}-${var.envtype}-bastion"
+  name    = "${coalesce("${var.name}", "${var.envname}-${var.envtype}-bastion")}"
   envname = "${var.envname}"
   service = "bastion"
 
