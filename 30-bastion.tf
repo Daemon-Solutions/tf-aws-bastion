@@ -29,6 +29,6 @@ resource "null_resource" bastion_asg {
   depends_on = ["module.bastion"]
 
   triggers = {
-    name = "${var.envname}-${var.envtype}-bastion"
+    name = "${coalesce("${var.name}", "${var.envname}-${var.envtype}-bastion")}"
   }
 }
