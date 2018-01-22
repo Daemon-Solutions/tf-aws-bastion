@@ -19,6 +19,7 @@ module "bastions" {
   bastion_ami             = "ami-fc64078"
 
   allowed_bastion_cidrs   = ["88.97.72.136/32", "54.76.122.23/32", "195.102.251.16/28", "195.8.68.130/32"]
+  allowed_icmp_cidrs      = ["0.0.0.0/0"]
 
   bastion_asg_min         = 2
   bastion_asg_max         = 2
@@ -35,7 +36,8 @@ module "bastions" {
 * `iam_instance_profile_id` - The IAM instance profile ID to use for the bastions
 * `instance_type` - The instance type to use for the bastions (defaults to t2.micro)
 * `bastion_ami` - The ami indentifier to be used to build linux bastions
-* `allowed_bastion_cidrs` - The cidr ranges allowed to connect to the bastions
+* `allowed_bastion_cidrs` - The cidr ranges allowed to connect to the bastions (defaults to allowing 0.0.0.0/0 unless overridden).
+* `allowed_icmp_cidrs` - The cidr ranges allowed to send ICMP traffic to the bastions
 * `bastion_asg_min` - The minimum number of linux bastions to create (defaults to 1)
 * `bastion_asg_max` - The maximum number of linux bastions to create (defaults to 1)
 * `bastion_userdata` - Pass custom userdata to the bastions
