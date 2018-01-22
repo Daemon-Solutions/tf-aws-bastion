@@ -21,6 +21,13 @@ resource "aws_security_group" "bastion_sg" {
     protocol    = "tcp"
     cidr_blocks = ["${var.allowed_bastion_cidrs}"]
   }
+
+  ingress {
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["${var.allowed_icmp_cidrs}"]
+  }
 }
 
 resource "aws_security_group" "bastion_egress" {

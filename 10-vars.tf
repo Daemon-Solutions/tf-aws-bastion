@@ -30,6 +30,12 @@ variable "allowed_bastion_cidrs" {
   type = "list"
 }
 
+variable "allowed_icmp_cidrs" {
+  description = "A list of CIDRs that are allowed to send ICMP traffic to the bastion."
+  type        = "list"
+  default     = ["0.0.0.0/0"]
+}
+
 variable "bastion_asg_min" {
   default = 1
 }
