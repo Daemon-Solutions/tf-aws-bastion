@@ -1,5 +1,5 @@
 module "bastion" {
-  source = "../tf-aws-asg"
+  source = "git::ssh://git@gogs.bashton.net:Bashton-Terraform-Modules/tf-aws-asg.git?ref=v0.7.2"
 
   name    = "${coalesce("${var.name}", "${var.envname}-${var.envtype}-bastion")}"
   envname = "${var.envname}"
