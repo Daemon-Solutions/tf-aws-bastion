@@ -11,11 +11,11 @@ variable "domain" {
 }
 
 variable "public_subnets" {
-  type = "list"
+  type = list(string)
 }
 
 variable "iam_instance_profile_id" {
-  type = "string"
+  type = string
 }
 
 variable "instance_type" {
@@ -27,12 +27,12 @@ variable "bastion_ami" {
 }
 
 variable "allowed_bastion_cidrs" {
-  type = "list"
+  type = list(string)
 }
 
 variable "allowed_icmp_cidrs" {
   description = "A list of CIDRs that are allowed to send ICMP traffic to the bastion."
-  type        = "list"
+  type        = list(string)
   default     = ["0.0.0.0/0"]
 }
 
