@@ -2,6 +2,12 @@
 
 Creating Linux and Windows bastion instances
 
+# Terraform Version Compatibility
+| Module version | Terraform version |
+|----------------|-------------------|
+| 2.x.x          | 0.12.x            |
+| <= 1.x.x       | 0.11.x            |
+
 ## Usage
 
 ```
