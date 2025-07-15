@@ -1,3 +1,13 @@
+## [3.0.0](https://github.com/Daemon-Solutions/tf-aws-bastion/compare/v2.0.1...v3.0.0) (2025-07-15)
+
+### ⚠ BREAKING CHANGES
+
+* **SD-4455:** upgrade terraform required versions
+
+### Features
+
+* **SD-4455:** upgrade terraform required versions ([95ce3dc](https://github.com/Daemon-Solutions/tf-aws-bastion/commit/95ce3dcf141e36272606c79fae17c4378aeac103))
+
 ## [2.0.0](https://github.com/Daemon-Solutions/tf-aws-bastion/compare/v1.5.0...v2.0.0) (2025-07-15)
 
 ### ⚠ BREAKING CHANGES
