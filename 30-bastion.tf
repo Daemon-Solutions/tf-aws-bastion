@@ -1,7 +1,5 @@
 module "bastion" {
-  source = "git::https://gitlab.com/claranet-pcp/terraform/aws/tf-aws-asg.git?ref=v2.0.0"
-  # "git@gitlab.com:claranet-pcp/terraform/aws/tf-aws-asg.git?ref=v1.0.0"
-
+  source  = "git::https://gitlab.com/claranet-pcp/terraform/aws/tf-aws-asg.git?ref=v2.0.0"
   name    = coalesce("${var.name}", "${var.envname}-${var.envtype}-bastion")
   envname = var.envname
   service = "bastion"
