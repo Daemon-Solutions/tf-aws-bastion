@@ -1,5 +1,6 @@
 module "bastion" {
-  source = "git::ssh://git@gitlab.com/claranet-pcp/terraform/aws/tf-aws-asg.git?ref=v1.0.0"
+  source = "git::https://gitlab.com/claranet-pcp/terraform/aws/tf-aws-asg.git?ref=v2.0.0"
+  # "git@gitlab.com:claranet-pcp/terraform/aws/tf-aws-asg.git?ref=v1.0.0"
 
   name    = coalesce("${var.name}", "${var.envname}-${var.envtype}-bastion")
   envname = var.envname
@@ -25,7 +26,7 @@ module "bastion" {
 # output and the ASG resource that is created within `module.bastion`. Other
 # resources using the `asg_name` output (which uses this null resource) will
 # then be executed AFTER the ASG is created.
-resource "null_resource" bastion_asg {
+resource "null_resource" "bastion_asg" {
   depends_on = [module.bastion]
 
   triggers = {
