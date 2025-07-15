@@ -1,0 +1,11 @@
+name: PR Title Validator
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  call_release:
+    uses: Daemon-Solutions/git-workflows/.github/workflows/pr_title_validator.yaml@v0.2.0
+    secrets: inherit
+
